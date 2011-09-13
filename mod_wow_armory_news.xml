@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- @Version $Id: mod_mh_ts3viewer.xml 13 2011-09-09 15:01:30Z branko $ -->
+<!-- @Version $Id$ -->
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>Simple Marquee</name>
     <author>Branko Wilhelm</author>

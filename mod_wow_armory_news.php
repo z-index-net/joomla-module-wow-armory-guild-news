@@ -7,7 +7,7 @@
  * @link       http://www.z-index.net
  * @copyright  2010 - 2011 Branko Wilhelm
  * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
- * @version    $Id: class.ts3viewer.php 37 2011-09-05 15:16:30Z bRunO $
+ * @version    $Id$
  */
  
 // no direct access

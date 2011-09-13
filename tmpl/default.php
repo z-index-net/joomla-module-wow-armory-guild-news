@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id: default.php 3 2011-07-20 14:14:05Z branko $
+ * @version		$Id$
  * @author              Branko Wilhelm, mediahof, Kiel-Germany
  * @package		mod_simple_marquee
  * @copyright           Copyright (C) 2011 mediahof. All rights reserved.
