@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- @Version $Id$ -->
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>Simple Marquee</name>
+    <name>WoW Armory Guild News</name>
     <author>Branko Wilhelm</author>
     <creationDate>July 2011</creationDate>
+    <copyright>(C) 2011 Branko Wilhelm</copyright>
     <license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
     <authorEmail>bw@z-index.net</authorEmail>
     <authorUrl>www.z-index.net</authorUrl>
@@ -23,8 +24,22 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="guild" type="text" default="" size="50" filter="raw" required="true" label="MOD_WOW_ARMORY_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_NEWS_GUILD_DESC" />
+                <field name="guild" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_NEWS_GUILD_DESC" />
+                <field name="realm" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_NEWS_REALM_DESC" />
+                <field name="lang" type="list" default="en" label="MOD_WOW_ARMORY_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_NEWS_LANG_DESC">
+                    <option value="en">English</option>
+                    <option value="de">Deutsch</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="ru">Русский</option>
+                </field>            
             </fieldset>
+        <fieldset name="advanced">
+            <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+            <field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+            <field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_ARMORY_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_NEWS_CACHE_DESC" />
+            <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_NEWS_TIMEOUT_DESC" />
+        </fieldset>
         </fields>
     </config>
 </extension>
