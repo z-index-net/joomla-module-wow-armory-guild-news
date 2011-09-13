@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @Version $Id: mod_mh_ts3viewer.xml 13 2011-09-09 15:01:30Z branko $ -->
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+    <name>Simple Marquee</name>
+    <author>Branko Wilhelm</author>
+    <creationDate>July 2011</creationDate>
+    <license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
+    <authorEmail>bw@z-index.net</authorEmail>
+    <authorUrl>www.z-index.net</authorUrl>
+    <version>1.0</version>
+    <description>display latest WoW Guild Armory News</description>
+    <files>
+        <filename module="mod_wow_armory_news">mod_wow_armory_news.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>		
+        <filename>mod_wow_armory_news.php</filename>
+        <folder>tmpl</folder>
+    </files>
+    <languages folder="lang">
+        <language tag="en-GB">en-GB.mod_wow_armory_news.ini</language>
+        <language tag="de-DE">de-DE.mod_wow_armory_news.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="guild" type="text" default="" size="50" filter="raw" required="true" label="MOD_WOW_ARMORY_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_NEWS_GUILD_DESC" />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
