@@ -9,36 +9,36 @@
     <authorEmail>bw@z-index.net</authorEmail>
     <authorUrl>www.z-index.net</authorUrl>
     <version>1.0</version>
-    <description>display latest WoW Guild Armory News</description>
+    <description>display latest WoW Armory Guild News</description>
     <files>
-        <filename module="mod_wow_armory_news">mod_wow_armory_news.php</filename>
+        <filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
         <filename>helper.php</filename>
-        <filename>index.html</filename>		
-        <filename>mod_wow_armory_news.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_wow_armory_guild_news.php</filename>
         <folder>tmpl</folder>
     </files>
     <languages folder="lang">
-        <language tag="en-GB">en-GB.mod_wow_armory_news.ini</language>
-        <language tag="de-DE">de-DE.mod_wow_armory_news.ini</language>
+        <language tag="en-GB">en-GB.mod_wow_armory_guild_news.ini</language>
+        <language tag="de-DE">de-DE.mod_wow_armory_guild_news.ini</language>
     </languages>
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="guild" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_NEWS_GUILD_DESC" />
-                <field name="realm" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_NEWS_REALM_DESC" />
-                <field name="lang" type="list" default="en" label="MOD_WOW_ARMORY_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_NEWS_LANG_DESC">
+                <field name="guild" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_DESC" />
+                <field name="realm" type="text" default="" size="50" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REALM_DESC" />
+                <field name="lang" type="list" default="en" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_LANG_DESC">
                     <option value="en">English</option>
                     <option value="de">Deutsch</option>
                     <option value="fr">Français</option>
                     <option value="es">Español</option>
                     <option value="ru">Русский</option>
-                </field>            
+                </field>
             </fieldset>
         <fieldset name="advanced">
             <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
             <field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
-            <field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_ARMORY_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_NEWS_CACHE_DESC" />
-            <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_NEWS_TIMEOUT_DESC" />
+            <field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
+            <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
         </fieldset>
         </fields>
     </config>
