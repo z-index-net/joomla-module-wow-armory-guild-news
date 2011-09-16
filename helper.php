@@ -9,7 +9,6 @@
  * @package    mod_wow_armory_guild_news
  * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
  * @version    $Id$
- * @link       www.z-index.net
  */
 // no direct access
 defined('_JEXEC') or die;
@@ -20,69 +19,84 @@ class mod_wow_armory_guild_news {
 
     public static function onload(&$params) {
 
+        // all required paramters set?
         if (!$params->get('lang') || !$params->get('realm') || !$params->get('guild')) {
-            return array(JText::_('please configure Module') . ' - ' . __CLASS__);
+            return JText::_('please configure Module') . ' - ' . __CLASS__;
         }
 
+        // if curl installed?
         if (!function_exists('curl_init')) {
-            return array(JText::_('php-curl extension not found'));
+            return JText::_('php-curl extension not found');
         }
 
-        $config = & JFactory::getConfig();
+        $scheme = JURI::getInstance()->getScheme();
+        $realm = urlencode(strtolower($params->get('realm')));
+        $guild = urlencode(strtolower($params->get('guild')));
+        $lang = $params->get('lang');
+        $region = $params->get('region');
+        $wowhead_lang = $params->get('wowhead_lang');
+        $url = 'http://' . $region . '.battle.net/wow/' . $lang . '/guild/' . $realm . '/' . $guild . '/news';
 
-        $url = "http://eu.battle.net/wow/" . $params->get('lang') . "/guild/" . urlencode($params->get('realm')) . "/" . urlencode($params->get('guild')) . "/news";
-        $timeout = $params->get('timeout', 10);
+        // wowhead script integration if wanted
+        if ($params->get('wowhead')) {
+            JFactory::getDocument()->addScript($scheme . '://static.wowhead.com/widgets/power.js');
+        }
 
         $cache = & JFactory::getCache(); // get cache obj
         $cache->setCaching(1); // enable cache for this module
-        $cache->setLifeTime($params->get('cachetime', $config->getValue('config.cachetime')) * 60); // time to cache
+        $cache->setLifeTime($params->get('cachetime') * 60); // time to cache
 
-        $result = $cache->call(array(__CLASS__, 'curl'), $url, $timeout);
+        $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
 
-        $cache->setCaching($config->getValue('config.caching')); // restore default cache mode
+        $cache->setCaching(JFactory::getConfig()->getValue('config.caching')); // restore default cache mode
 
-        if (!strpos($result['body'], '<div id="news-list">')) {
-            return array(JText::_('no guild data found'));
+        if (!strpos($result['body'], '<div id="news-list">')) { // check if guild data exists
+            return JText::_('no guild data found');
         }
 
+        // remove unneeded attributes
         $content = str_replace(array("\t", "\r", "\n"), ' ', $result['body']);
 
-        preg_match('#<div id="news-list">(.*?)<ul class="(.*?)">(.*?)<\/ul>(.*?)<\/div>#', $content, $data);
+        // get only news data
+        preg_match('#<div id="news-list">(.*?)<ul class="(.*?)">(.*?)</ul>(.*?)</div>#', $content, $data);
 
+        // remove unnecessary whitespaces
+        $search[] = '#\s{2,10}#';
+        $replace[] = '';
 
-// Links werden von rel, style, mouseover und co bereinigt
-        $clearLinkSearch = "/<a(.*?)href=\"(.*?)\"(.*?)>(.*?)<\/a>/";
-        $clearLinkReplace = '<a href="$2">$4</a>';
+        // remove any attributes from links
+        $search[] = '#<a(.*?)href="(.*?)"(.*?)>(.*?)</a>#';
+        $replace[] = '<a href="$2">$4</a>';
 
-// der link von Carakter Achievments wird so geändert, damit die wowhead tooltips funktionieren
-        $charakterAchievmentSearch = "/\/wow\/" . $realmLang . "\/character\/" . str_replace(" ", "%20", $realmName) . "\/(\S\w+)\/achievement#(\d+):a(\d+)/";
-        $charakterAchievmentReplace = 'http://de.wowhead.com/achievement=$3';
+        // replace item icon with img tag
+        $search[] = '#<span(.*?)style=\'background-image: url\("(.*?)"\);\'(.*?)>(.*?)</span>#';
+        $replace[] = $params->get('icons') ? '<img src="$2" width="18" height="18" alt="" />' : '';
 
-// der link von Charakteren wird zum Arsenal geleitet
-        $charakterLinkSearch = "/\/wow\/" . $realmLang . "\/character\/" . str_replace(" ", "%20", $realmName) . "\/(\S\w+)/";
-        $charakterLinkReplace = 'http://eu.battle.net/wow/".$realmLang."/character/' . str_replace(" ", "%20", $guildName) . '/$1';
+        // wowhead: player achievement // /wow/de/character/blackhand/Sneakz/achievement#92:a7
+        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)/achievement\#(\w+):a(\w+)#';
+        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$3';
 
-// der link von Gilden Achievments wird so geändert, damit die wowhead tooltips funktionieren
-        $guildAchievmentSearch = "/\/wow\/" . $realmLang . "\/guild\/" . str_replace(" ", "%20", $realmName) . "\/" . str_replace(" ", "%20", $guildName) . "\/achievement#(\d+):a(\d+)/";
-        $guildAchievmentReplace = 'http://de.wowhead.com/achievement=$2';
+        // armory: player link
+        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)#';
+        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . 'character/' . $realm . '/$1';
 
-// der link von Items werden so geändert, dass die wowhead tooltips funktionieren
-        $itemSearch = "/\/wow\/de\/item\/(\d+)/";
-        $itemReplace = 'http://de.wowhead.com/item=$1';
+        // wowhead: guild achievement
+        $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#';
+        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$2';
 
-// Array für das suchen und ersetzten
-        $suchmuster = array($clearLinkSearch, $charakterAchievmentSearch, $charakterLinkSearch, $guildAchievmentSearch, $itemSearch);
-        $ersetzen = array($clearLinkReplace, $charakterAchievmentReplace, $charakterLinkReplace, $guildAchievmentReplace, $itemReplace);
+        // wowhead: item link
+        $search[] = '#/wow/' . $lang . '/item/(\d+)#';
+        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/item=$1';
 
-        $baz = preg_replace($suchmuster, $ersetzen, $data[3]);
+        $data[3] = preg_replace($search, $replace, $data[3]);
 
-// Finde lis und packe sie in ein array
-        preg_match_all("/<li(.*?)>(.*?)<\/li>/", $baz, $newsList, PREG_PATTERN_ORDER);
+        // find all <li>
+        preg_match_all('#<li(.*?)>(.*?)<\/li>#', $data[3], $result, PREG_PATTERN_ORDER);
 
-// finde die ersten 5 einträge
-        $newsItem = array();
-        for ($i = 0; $i < 5; $i++) {
-            $newsItem[] = array($newsList[0][$i]);
+        // display only X results - max 25
+        $rows = ($params->get('rows') >= 25) ? 25 : $params->get('rows', 5);
+        for ($i = 0; $i < $rows; $i++) {
+            $newsItem[] = trim($result[2][$i]);
         }
 
         return $newsItem;
