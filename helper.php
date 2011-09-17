@@ -44,7 +44,7 @@ class mod_wow_armory_guild_news {
 
         $cache = & JFactory::getCache(); // get cache obj
         $cache->setCaching(1); // enable cache for this module
-        $cache->setLifeTime($params->get('cachetime') * 60); // time to cache
+        $cache->setLifeTime($params->get('cache_time', 15)); // time to cache
 
         $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
 
