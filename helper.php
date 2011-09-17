@@ -72,13 +72,13 @@ class mod_wow_armory_guild_news {
         $search[] = '#<span(.*?)style=\'background-image: url\("(.*?)"\);\'(.*?)>(.*?)</span>#';
         $replace[] = $params->get('icons') ? '<img src="$2" width="18" height="18" alt="" />' : '';
 
-        // wowhead: player achievement // /wow/de/character/blackhand/Sneakz/achievement#92:a7
+        // wowhead: player achievement
         $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)/achievement\#(\w+):a(\w+)#';
         $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$3';
 
         // armory: player link
         $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)#';
-        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . 'character/' . $realm . '/$1';
+        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . '/character/' . $realm . '/$1';
 
         // wowhead: guild achievement
         $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#';
