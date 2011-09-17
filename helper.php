@@ -32,9 +32,9 @@ class mod_wow_armory_guild_news {
         $scheme = JURI::getInstance()->getScheme();
         $realm = urlencode(strtolower($params->get('realm')));
         $guild = urlencode(strtolower($params->get('guild')));
-        $lang = $params->get('lang');
-        $region = $params->get('region');
-        $wowhead_lang = $params->get('wowhead_lang');
+        $lang = strtolower($params->get('lang'));
+        $region = strtolower($params->get('region'));
+        $wowhead_lang = strtolower($params->get('wowhead_lang'));
         $url = 'http://' . $region . '.battle.net/wow/' . $lang . '/guild/' . $realm . '/' . $guild . '/news';
 
         // wowhead script integration if wanted

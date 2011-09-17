@@ -12,7 +12,7 @@
  */
 // no direct accesss
 defined('_JEXEC') or die;
-JFactory::getDocument()->addStyleSheet('modules/mod_wow_armory_guild_news/tmpl/stylesheet.css');
+JFactory::getDocument()->addStyleSheet('/modules/mod_wow_armory_guild_news/tmpl/stylesheet.css');
 ?>
 <div class="mod_wow_armory_guild_news<?php echo $params->get('moduleclass_sfx'); ?>">
 <ul>
