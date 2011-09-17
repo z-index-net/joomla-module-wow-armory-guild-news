@@ -104,7 +104,7 @@ class mod_wow_armory_guild_news {
 
     public static function curl($url, $timeout) {
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! Wow Armory Guild News Module; php ' . phpversion());
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! Wow Armory Guild News Module; php/' . phpversion());
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Connection: Close'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
