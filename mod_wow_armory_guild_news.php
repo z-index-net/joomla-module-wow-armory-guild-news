@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WoW Armory Guild News Module
  *
@@ -10,7 +9,6 @@
  * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
  * @version    $Id$
  */
-
 // no direct access
 defined('_JEXEC') or die;
 

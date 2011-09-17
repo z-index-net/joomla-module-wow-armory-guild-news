@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WoW Armory Guild News Module
  *
@@ -54,7 +53,7 @@ class mod_wow_armory_guild_news {
             return JText::_('no guild data found');
         }
 
-        // remove unneeded attributes
+        // remove unneeded marks
         $content = str_replace(array("\t", "\r", "\n"), ' ', $result['body']);
 
         // get only news data

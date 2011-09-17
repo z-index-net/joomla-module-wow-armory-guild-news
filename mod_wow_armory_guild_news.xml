@@ -21,6 +21,7 @@
         <language tag="en-GB">en-GB.mod_wow_armory_guild_news.ini</language>
         <language tag="de-DE">de-DE.mod_wow_armory_guild_news.ini</language>
     </languages>
+    <!-- Joomla! 1.6+ -->
     <config>
         <fields name="params">
             <fieldset name="basic">
@@ -53,6 +54,7 @@
             </fieldset>
         </fields>
     </config>
+    <!-- Joomla! 1.5 -->
     <params name="basic">
         <param name="guild" type="text" default="" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_DESC" />
         <param name="realm" type="text" default="" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REALM_DESC" />
@@ -66,12 +68,12 @@
         <param name="cache_time" type="text" default="15" size="5" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
         <param name="timeout" type="text" default="10" size="5" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
         <param name="icons" type="radio" default="yes" label="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_DESC">
-            <option value="yes">JYES</option>
-            <option value="no">JNO</option>
+            <option value="yes">YES</option>
+            <option value="no">NO</option>
         </param>
         <param name="wowhead" type="radio" default="yes" label="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_DESC">
-            <option value="yes">JYES</option>
-            <option value="no">JNO</option>
+            <option value="yes">YES</option>
+            <option value="no">NO</option>
         </param>
         <param name="wowhead_lang" type="list" default="en" label="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LANG_DESC">
             <option value="en">English</option>
@@ -81,5 +83,4 @@
             <option value="ru">Русский</option>
         </param>
     </params>
-
 </install>
