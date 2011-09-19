@@ -3,7 +3,7 @@
 <install type="module" version="1.5.0" client="site" method="upgrade">
     <name>WoW Armory Guild News</name>
     <author>Branko Wilhelm</author>
-    <creationDate>Jul 2011</creationDate>
+    <creationDate>Sep 2011</creationDate>
     <copyright>(C) 2011 Branko Wilhelm</copyright>
     <license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
     <authorEmail>bw@z-index.net</authorEmail>
