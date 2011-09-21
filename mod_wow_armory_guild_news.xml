@@ -55,16 +55,15 @@
         </fields>
     </config>
     <!-- Joomla! 1.5 -->
-    <params name="basic">
+    <params>
         <param name="guild" type="text" default="" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_DESC" />
         <param name="realm" type="text" default="" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REALM_DESC" />
         <param name="lang" type="text" default="en" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_LANG_DESC" />
         <param name="region" type="text" default="us" size="30" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REGION_DESC" />
         <param name="rows" type="text" default="5" size="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
     </params>
-    <params name="advanced">
-        <param name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-        <param name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+    <params group="advanced">
+        <param name="moduleclass_sfx" type="text" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
         <param name="cache_time" type="text" default="15" size="5" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
         <param name="timeout" type="text" default="10" size="5" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
         <param name="icons" type="radio" default="yes" label="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_DESC">

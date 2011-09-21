@@ -101,13 +101,14 @@ class mod_wow_armory_guild_news {
         return $newsItem;
     }
 
-    public static function curl($url, $timeout) {
+    public static function curl($url, $timeout=10) {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! Wow Armory Guild News Module; php/' . phpversion());
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Connection: Close'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
         curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
-        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
 
         $body = curl_exec($curl);
         $info = curl_getinfo($curl);
