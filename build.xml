@@ -8,6 +8,7 @@
 
 	<fileset dir="${temp}" id="allfiles">
 		<include name="**" />
+		<exclude name="build.xml" />
 	</fileset>
 
 	<fileset dir="${temp}/zip" id="tempzip">
@@ -25,7 +26,7 @@
 			<fileset refid="allfiles" />
 			<filterchain>
 				<replacetokens>
-					<token key="@SVN_REVISION@" value="${svn.lastrevision}" />
+					<token key="SVN_REVISION" value="${svn.lastrevision}" />
 				</replacetokens>
 			</filterchain>
 		</copy>

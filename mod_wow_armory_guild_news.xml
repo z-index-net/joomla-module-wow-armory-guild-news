@@ -8,7 +8,7 @@
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
 	<authorEmail>bw@z-index.net</authorEmail>
 	<authorUrl>www.z-index.net</authorUrl>
-	<version>SVN_REVISION</version>
+	<version>@SVN_REVISION@</version>
 	<description>Display latest WoW Armory Guild News</description>
 	<files>
 		<filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
