@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="mod_wow_armory_guild_news" basedir="." default="buildextension">
+	<property name="src" value="${project.basedir}" override="true" />
+
+	<property name="temp" value="/tmp/${phing.project.name}" override="true" />
+
+	<svnlastrevision svnpath="/usr/bin/svn" workingcopy="." propertyname="svn.lastrevision" />
+
+	<fileset dir="${temp}" id="allfiles">
+		<include name="**" />
+	</fileset>
+
+	<fileset dir="${temp}/zip" id="tempzip">
+		<include name="**" />
+	</fileset>
+
+	<target name="clean">
+		<delete dir="${temp}" />
+	</target>
+
+	<target name="buildextension" depends="clean">
+		<svnexport svnpath="/usr/bin/svn" todir="${temp}" repositoryurl="svn+ssh://zindex/var/www/subversion/${phing.project.name}/trunk" />
+
+		<copy todir="${temp}/zip">
+			<fileset refid="allfiles" />
+			<filterchain>
+				<replacetokens>
+					<token key="@SVN_REVISION@" value="${svn.lastrevision}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+
+		<property name="filename" value="/var/www/_svn/${phing.project.name}.rev.${svn.lastrevision}" override="true" />
+
+		<zip destfile="${filename}.zip">
+			<fileset refid="tempzip" />
+		</zip>
+
+		<delete dir="${temp}" />
+	</target>
+</project>

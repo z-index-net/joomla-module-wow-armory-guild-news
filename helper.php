@@ -29,8 +29,8 @@ class mod_wow_armory_guild_news {
         }
 
         $scheme = JURI::getInstance()->getScheme();
-        $realm = urlencode(strtolower($params->get('realm')));
-        $guild = urlencode(strtolower($params->get('guild')));
+        $realm = rawurlencode(strtolower($params->get('realm')));
+        $guild = rawurlencode(strtolower($params->get('guild')));
         $lang = strtolower($params->get('lang'));
         $region = strtolower($params->get('region'));
         $wowhead_lang = strtolower($params->get('wowhead_lang'));
