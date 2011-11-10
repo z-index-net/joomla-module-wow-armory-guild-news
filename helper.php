@@ -76,8 +76,8 @@ class mod_wow_armory_guild_news {
         $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$3';
 
         // armory: player link
-        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)#';
-        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . '/character/' . $realm . '/$1';
+        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/#';
+        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . '/character/' . $realm . '/';
 
         // wowhead: guild achievement
         $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#';
