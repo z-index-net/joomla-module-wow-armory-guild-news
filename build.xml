@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="mod_wow_armory_guild_news" basedir="." default="buildextension">
-	<property name="src" value="${project.basedir}" override="true" />
+<project name="mod_wow_armory_guild_news" basedir="." default="build">
+	
+	<svnlastrevision workingcopy="." propertyname="revision" />
+	
+	<property name="zip" value="/var/www/_svn/${phing.project.name}.rev.${revision}.zip" />
 
-	<property name="temp" value="/tmp/${phing.project.name}" override="true" />
-
-	<svnlastrevision svnpath="/usr/bin/svn" workingcopy="${src}" lastChanged="true" propertyname="svn.lastrevision" />
-
-	<fileset dir="${temp}" id="allfiles">
+	<fileset dir="." id="allfiles">
 		<include name="**" />
 		<exclude name="build.xml" />
+		<exclude name=".**"/>
 	</fileset>
-
-	<fileset dir="${temp}/zip" id="tempzip">
+	
+	<fileset dir="_tmp" id="tmp">
 		<include name="**" />
 	</fileset>
-
-	<target name="clean">
-		<delete dir="${temp}" />
+	
+	<target name="cleanup">
+		<delete dir="_tmp" />
+		<delete file="${zip}" />
 	</target>
-
-	<target name="buildextension" depends="clean">
-		<svnexport svnpath="/usr/bin/svn" todir="${temp}" repositoryurl="svn+ssh://zindex/var/www/subversion/${phing.project.name}/trunk" />
-
-		<copy todir="${temp}/zip">
+	
+	<target name="build" depends="cleanup">
+		
+		<copy todir="_tmp">
 			<fileset refid="allfiles" />
 			<filterchain>
 				<replacetokens>
-					<token key="SVN_REVISION" value="rev ${svn.lastrevision}" />
+					<token key="SVN_REVISION" value="rev ${revision}" />
 				</replacetokens>
 			</filterchain>
 		</copy>
-
-		<property name="filename" value="/var/www/_svn/${phing.project.name}.rev.${svn.lastrevision}" override="true" />
-
-		<zip destfile="${filename}.zip">
-			<fileset refid="tempzip" />
+		
+		<zip destfile="${zip}">
+			<fileset refid="tmp" />
 		</zip>
+		
+		<delete dir="_tmp" />
 
-		<delete dir="${temp}" />
 	</target>
+	
 </project>
