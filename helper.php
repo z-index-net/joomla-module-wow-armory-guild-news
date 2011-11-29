@@ -37,7 +37,7 @@ class mod_wow_armory_guild_news {
         $url = 'http://' . $region . '.battle.net/wow/' . $lang . '/guild/' . $realm . '/' . $guild . '/news';
 
         // wowhead script integration if wanted
-        if ($params->get('wowhead')) {
+        if ($params->get('wowhead') == 'yes') {
             JFactory::getDocument()->addScript($scheme . '://static.wowhead.com/widgets/power.js');
         }
 
