@@ -15,6 +15,6 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once dirname(__FILE__) . '/helper.php';
 
-$news = (array) mod_wow_armory_guild_news::onload($params, $module);
+$news = mod_wow_armory_guild_news::onload($params, $module);
 
 require JModuleHelper::getLayoutPath('mod_wow_armory_guild_news', $params->get('layout', 'default'));

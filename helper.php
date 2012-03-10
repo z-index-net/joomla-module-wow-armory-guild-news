@@ -20,12 +20,12 @@ class mod_wow_armory_guild_news {
 
         // all required paramters set?
         if (!$params->get('lang') || !$params->get('realm') || !$params->get('guild')) {
-            return JText::_('please configure Module') . ' - ' . __CLASS__;
+            return array('please configure Module' . ' - ' . __CLASS__);
         }
 
         // if curl installed?
         if (!function_exists('curl_init')) {
-            return JText::_('php-curl extension not found');
+            return array('php-curl extension not found');
         }
 
         $scheme = JURI::getInstance()->getScheme();
@@ -41,16 +41,22 @@ class mod_wow_armory_guild_news {
             JFactory::getDocument()->addScript($scheme . '://static.wowhead.com/widgets/power.js');
         }
 
-        $cache = & JFactory::getCache(); // get cache obj
+        $cache = JFactory::getCache(); // get cache obj
         $cache->setCaching(1); // enable cache for this module
         $cache->setLifeTime($params->get('cache_time', 15)); // time to cache
 
         $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
 
-        $cache->setCaching(JFactory::getConfig()->getValue('config.caching')); // restore default cache mode
+        $cache->setCaching(JFactory::getConfig()->getValue('config.caching')); // restore default cache option
 
         if (!strpos($result['body'], '<div id="news-list">')) { // check if guild data exists
-            return JText::_('no guild data found');
+            $err[] = '<strong>no guild data found</strong>';
+            if($result['errno'] != 0) {
+                $err[] = 'Error: ' . $result['error'] . ' (' . $result['errno'] . ')';
+            }
+            $err[] = 'battle.net URL: ' . JHTML::link($url, $guild);
+            $err[] = 'HTTP Code: ' . $result['info']['http_code'];
+            return $err;
         }
 
         // remove unneeded marks
@@ -103,11 +109,10 @@ class mod_wow_armory_guild_news {
 
     public static function curl($url, $timeout=10) {
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! Wow Armory Guild News Module; php/' . phpversion());
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Connection: Close'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
-        curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
         curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
 
         $body = curl_exec($curl);

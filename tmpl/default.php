@@ -14,10 +14,8 @@ defined('_JEXEC') or die;
 
 JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/mod_wow_armory_guild_news/tmpl/stylesheet.css');
 ?>
-<div class="mod_wow_armory_guild_news<?php echo $params->get('moduleclass_sfx'); ?>">
-    <ul>
-        <?php foreach ($news as $row) { ?>
-            <li><?php echo $row; ?></li>
-        <?php } ?>
-    </ul>
+<div class="mod_wow_armory_guild_news">
+    <?php foreach ($news as $row) { ?>
+        <div><?php echo $row; ?></div>
+    <?php } ?>
 </div>

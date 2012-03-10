@@ -1,7 +1,6 @@
 /* $Id$ */
 
-div.mod_wow_armory_guild_news ul li{
-    list-style-type: none;
+div.mod_wow_armory_guild_news div{
     clear: both;
 }
 
