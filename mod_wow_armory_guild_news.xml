@@ -82,6 +82,6 @@
 		</param>
 	</params>
 	<updateservers>
-		<server type="extension" priority="1" name="WoW Armory Guild News">http://www.z-index.net/joomla/wow-armory-guild-news/updatestream/?view=xml</server>
+		<server type="extension" priority="1" name="WoW Armory Guild News">http://www.z-index.net/en/joomla/wow-armory-guild-news/updatestream.xml</server>
 	</updateservers>
 </install>

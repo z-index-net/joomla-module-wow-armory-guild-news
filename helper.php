@@ -99,7 +99,7 @@ class mod_wow_armory_guild_news {
         preg_match_all('#<li(.*?)>(.*?)<\/li>#', $data[3], $result, PREG_PATTERN_ORDER);
 
         // display only X results - max 25
-        $rows = ($params->get('rows') >= 25) ? 25 : $params->get('rows', 5);
+        $rows = ($params->get('rows') >= 24) ? 24 : $params->get('rows', 5);
         for ($i = 0; $i < $rows; $i++) {
             $newsItem[] = trim($result[2][$i]);
         }

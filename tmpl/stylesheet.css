@@ -1,11 +1,7 @@
 /* $Id$ */
 
-div.mod_wow_armory_guild_news div{
-    clear: both;
-}
-
 div.mod_wow_armory_guild_news dl {
-    padding: 2px;
+    clear: both;
 }
 
 div.mod_wow_armory_guild_news dd {
@@ -13,7 +9,6 @@ div.mod_wow_armory_guild_news dd {
 }
 
 div.mod_wow_armory_guild_news dt {
-    display: inline;
     float: right;
 }
 
