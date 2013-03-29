@@ -63,34 +63,34 @@ class mod_wow_armory_guild_news {
         $content = str_replace(array("\t", "\r", "\n"), ' ', $result['body']);
 
         // get only news data
-        preg_match('#<div id="news-list">(.*?)<ul class="(.*?)">(.*?)</ul>(.*?)</div>#', $content, $data);
+        preg_match('#<div id="news-list">(.*?)<ul class="(.*?)">(.*?)</ul>(.*?)</div>#i', $content, $data);
 
         // remove unnecessary whitespaces
         $search[] = '#\s{2,10}#';
         $replace[] = '';
 
         // remove any attributes from links
-        $search[] = '#<a(.*?)href="(.*?)"(.*?)>(.*?)</a>#';
+        $search[] = '#<a(.*?)href="(.*?)"(.*?)>(.*?)</a>#i';
         $replace[] = '<a href="$2">$4</a>';
 
         // replace item icon with img tag
-        $search[] = '#<span(.*?)style=\'background-image: url\("(.*?)"\);\'(.*?)>(.*?)</span>#';
+        $search[] = '#<span(.*?)style=\'background-image: url\("(.*?)"\);\'(.*?)>(.*?)</span>#i';
         $replace[] = $params->get('icons') ? '<img src="$2" width="18" height="18" alt="" />' : '';
 
         // wowhead: player achievement
-        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)/achievement\#(\w+):a(\w+)#';
+        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)/achievement\#(\w+):a(\w+)#i';
         $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$3';
 
         // armory: player link
-        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/#';
+        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/#i';
         $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . '/character/' . $realm . '/';
 
         // wowhead: guild achievement
-        $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#';
+        $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#i';
         $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$2';
 
         // wowhead: item link
-        $search[] = '#/wow/' . $lang . '/item/(\d+)#';
+        $search[] = '#/wow/' . $lang . '/item/(\d+)#i';
         $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/item=$1';
 
         $data[3] = preg_replace($search, $replace, $data[3]);
