@@ -4,7 +4,7 @@
  *
  * @author     Branko Wilhelm <bw@z-index.net>
  * @link       http://www.z-index.net
- * @copyright  (c) 2011 - 2012 Branko Wilhelm
+ * @copyright  (c) 2011 - 2013 Branko Wilhelm
  * @package    mod_wow_armory_guild_news
  * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
  * @version    $Id$
@@ -17,4 +17,4 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $news = mod_wow_armory_guild_news::onload($params, $module);
 
-require JModuleHelper::getLayoutPath('mod_wow_armory_guild_news', $params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
