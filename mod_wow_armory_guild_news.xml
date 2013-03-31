@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- @Version $Id$ -->
-<extension type="module" version="2.5.0" client="site" method="upgrade">
+<extension type="module" version="1.6" client="site" method="upgrade">
 	<name>WoW Armory Guild News</name>
 	<author>Branko Wilhelm</author>
 	<creationDate>Sep 2011</creationDate>
 	<copyright>(C) 2011 - 2013 Branko Wilhelm</copyright>
-	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
+	<license>GNU General Public License v3</license>
 	<authorEmail>bw@z-index.net</authorEmail>
 	<authorUrl>www.z-index.net</authorUrl>
 	<version>@SVN_REVISION@</version>

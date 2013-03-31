@@ -6,9 +6,10 @@
  * @link       http://www.z-index.net
  * @copyright  (c) 2011 - 2013 Branko Wilhelm
  * @package    mod_wow_armory_guild_news
- * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
+ * @license    GNU General Public License v3
  * @version    $Id$
  */
+
 // no direct access
 defined('_JEXEC') or die;
 
