@@ -27,28 +27,19 @@
 				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REALM_DESC" />
 				<field name="lang" type="text" default="en" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_LANG_DESC" />
 				<field name="region" type="text" default="us" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REGION_DESC" />
-				<field name="rows" type="text" default="5" size="5" required="true" filter="integer" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
+			    <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
+				<field name="link" type="list" default="battle.net" label="MOD_WOW_ARMORY_GUILD_NEWS_LINK_LABEL">
+                    <option value="battle.net">battle.net</option>
+                    <option value="wowhead.com">wowhead.com</option>
+                    <option value="wowdb.com">wowdb.com</option>
+                    <option value="buffed.de">buffed.de</option>
+                </field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
 				<field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
-				<field name="icons" type="radio" default="yes" label="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ICONS_DESC">
-					<option value="yes">JYES</option>
-					<option value="no">JNO</option>
-				</field>
-				<field name="wowhead" type="radio" default="yes" label="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_DESC">
-					<option value="yes">JYES</option>
-					<option value="no">JNO</option>
-				</field>
-				<field name="wowhead_lang" type="list" default="en" label="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_WOWHEAD_LANG_DESC">
-					<option value="en">English</option>
-					<option value="de">Deutsch</option>
-					<option value="fr">Français</option>
-					<option value="es">Español</option>
-					<option value="ru">Русский</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -13,117 +13,110 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.cache.cache');
+jimport('joomla.http.http');
 
-class mod_wow_armory_guild_news {
+final class mod_wow_armory_guild_news {
+	
+	private $params = null;
+	
+	public function __construct(JRegistry &$params) {
+		$this->params = $params;
+	}
 
-    public static function onload(&$params) {
+    public function data() {
 
-        // all required paramters set?
-        if (!$params->get('lang') || !$params->get('realm') || !$params->get('guild')) {
-            return array('please configure Module' . ' - ' . __CLASS__);
+        if (!$this->params->get('lang') || !$this->params->get('realm') || !$this->params->get('guild')) {
+        	return 'please configure Module - ' . __CLASS__;
+        }
+        
+        $url = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/news';
+
+        $cache = JFactory::getCache(__CLASS__ , 'output');
+        $cache->setCaching(1);
+        $cache->setLifeTime($this->params->get('cache_time', 60) * 60);
+
+        $key = md5($url);
+         
+        if(!$result = $cache->get($key)) {
+        	$http = new JHttp;
+        	$http->setOption('userAgent', 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
+        	
+        	try {
+        		$result = $http->get($url, null, $this->params->get('timeout', 10));
+        	}catch(Exception $e) {
+        		return $e->getMessage();
+        	}
+        	
+        	$cache->store($result, $key);
         }
 
-        // if curl installed?
-        if (!function_exists('curl_init')) {
-            return array('php-curl extension not found');
+        if($result->code != 200) {
+        	return __CLASS__ . ' HTTP-Status ' . JHTML::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#'.$result->code, $result->code, array('target' => '_blank'));
         }
-
-        $scheme = JURI::getInstance()->getScheme();
-        $realm = rawurlencode(strtolower($params->get('realm')));
-        $guild = rawurlencode(strtolower($params->get('guild')));
-        $lang = strtolower($params->get('lang'));
-        $region = strtolower($params->get('region'));
-        $wowhead_lang = strtolower($params->get('wowhead_lang'));
-        $url = 'http://' . $region . '.battle.net/wow/' . $lang . '/guild/' . $realm . '/' . $guild . '/news';
-
-        // wowhead script integration if wanted
-        if ($params->get('wowhead') == 'yes') {
-            JFactory::getDocument()->addScript($scheme . '://static.wowhead.com/widgets/power.js');
+        
+        if(strpos($result->body, '<div id="news-list">') === false) {
+        	return 'no news found';
         }
-
-        $cache = JFactory::getCache(); // get cache obj
-        $cache->setCaching(1); // enable cache for this module
-        $cache->setLifeTime($params->get('cache_time', 15)); // time to cache
-
-        $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
-
-        $cache->setCaching(JFactory::getConfig()->get('caching')); // restore default cache mode
-
-        if (!strpos($result['body'], '<div id="news-list">')) { // check if guild data exists
-            $err[] = '<strong>no guild data found</strong>';
-            if($result['errno'] != 0) {
-                $err[] = 'Error: ' . $result['error'] . ' (' . $result['errno'] . ')';
-            }
-            $err[] = 'battle.net URL: ' . JHTML::link($url, $guild);
-            $err[] = 'HTTP Code: ' . $result['info']['http_code'];
-            return $err;
-        }
-
-        // remove unneeded marks
-        $content = str_replace(array("\t", "\r", "\n"), ' ', $result['body']);
-
+        
         // get only news data
-        preg_match('#<div id="news-list">(.*?)<ul class="(.*?)">(.*?)</ul>(.*?)</div>#i', $content, $data);
-
+        preg_match('#<div id="news-list">.*?<ul class=".*?">(.*?)</ul>.*?</div>#si', $result->body, $result->body);
+        
+        $result->body = $result->body[1];
+        
         // remove unnecessary whitespaces
         $search[] = '#\s{2,10}#';
         $replace[] = '';
-
-        // remove any attributes from links
-        $search[] = '#<a(.*?)href="(.*?)"(.*?)>(.*?)</a>#i';
-        $replace[] = '<a href="$2">$4</a>';
+        
+        // would disable wowhead tooltips?!
+        $search[] = '#rel="np"#';
+        $replace[] = '';
+        
+        // add link target
+        $search[] = '#href="#';
+        $replace[] = 'target="_blank" href="';
 
         // replace item icon with img tag
-        $search[] = '#<span(.*?)style=\'background-image: url\("(.*?)"\);\'(.*?)>(.*?)</span>#i';
-        $replace[] = $params->get('icons') ? '<img src="$2" width="18" height="18" alt="" />' : '';
+        $search[] = '#<span.*?style=\'background-image: url\("(.*?)"\);\'.*?>.*?</span>#i';
+        $replace[] = '<img src="$1" width="18" height="18" alt="" />';
+        
+        $result->body = preg_replace($search, $replace, $result->body);
+        
+        // player achievement
+        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/character/' . $this->params->get('realm') . '/\S[[:graph:]][^/]+/(achievement)\#([[:digit:]:a]+)#i', array(&$this, 'link'), $result->body);
+        
+        // player link
+        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/(character)/' . $this->params->get('realm') . '/(\S[[:graph:]][^/]+)/#i', array(&$this, 'link'), $result->body);
+        
+        // item link
+        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i', array(&$this, 'link'), $result->body);
+        
+        // guild achievement
+        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/(achievement)\#([[:digit:]:a]+)#i', array(&$this, 'link'), $result->body);
+        
+        // at last split data at <li>
+        preg_match_all('#<li.*?>(.*?)<\/li>#',  $result->body, $result->body, PREG_PATTERN_ORDER);
 
-        // wowhead: player achievement
-        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/(\S\w+)/achievement\#(\w+):a(\w+)#i';
-        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$3';
-
-        // armory: player link
-        $search[] = '#/wow/' . $lang . '/character/' . $realm . '/#i';
-        $replace[] = $scheme . '://' . $region . '.battle.net/wow/' . $lang . '/character/' . $realm . '/';
-
-        // wowhead: guild achievement
-        $search[] = '#/wow/' . $params->get('lang') . '/guild/' . $realm . '/' . $guild . '/achievement\#(\d+):a(\d+)#i';
-        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/achievement=$2';
-
-        // wowhead: item link
-        $search[] = '#/wow/' . $lang . '/item/(\d+)#i';
-        $replace[] = $scheme . '://' . $wowhead_lang . '.wowhead.com/item=$1';
-
-        $data[3] = preg_replace($search, $replace, $data[3]);
-
-        // find all <li>
-        preg_match_all('#<li(.*?)>(.*?)<\/li>#', $data[3], $result, PREG_PATTERN_ORDER);
-
-        // display only X results - max 25
-        $rows = ($params->get('rows') >= 24) ? 24 : $params->get('rows', 5);
-        for ($i = 0; $i < $rows; $i++) {
-            $newsItem[] = trim($result[2][$i]);
-        }
-
-        return $newsItem;
+        return array_slice($result->body[1], 0, $this->params->get('rows'));
     }
-
-    public static function curl($url, $timeout=10) {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Connection: Close'));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
-
-        $body = curl_exec($curl);
-        $info = curl_getinfo($curl);
-        $errno = curl_errno($curl);
-        $error = curl_error($curl);
-
-        curl_close($curl);
-
-        return array('info' => $info, 'errno' => $errno, 'error' => $error, 'body' => $body);
+    
+    private function link($matches) {
+    	
+    	$sites['item']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
+    	$sites['item']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/item=' . $matches[2];
+    	$sites['item']['wowdb.com'] = 'http://www.wowdb.com/items/' . $matches[2];
+    	$sites['item']['buffed.de'] = 'http://wowdata.buffed.de/?i=' . $matches[2];
+    	
+    	if($matches[1] == 'achievement') {
+    		$achievement = substr($matches[2], strpos($matches[2], ':a')+2);
+	    	$sites['achievement']['battle.net'] = $matches[0];
+	    	$sites['achievement']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/achievement=' . $achievement;
+	    	$sites['achievement']['wowdb.com'] = 'http://www.wowdb.com/achievements/' . $achievement;
+	    	$sites['achievement']['buffed.de'] = 'http://wowdata.buffed.de/?a=' . $achievement;
+    	}
+    	
+    	$sites['character']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
+    	$sites['character']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/profile=' . $this->params->get('region') . '.' . $this->params->get('realm'). '.' . $matches[2];
+    	 
+    	return isset($sites[$matches[1]][$this->params->get('link')]) ? $sites[$matches[1]][$this->params->get('link')] : $sites[$matches[1]]['battle.net'];
     }
-
 }

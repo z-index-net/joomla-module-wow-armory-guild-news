@@ -10,12 +10,24 @@
  * @version    $Id$
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
 require_once dirname(__FILE__) . '/helper.php';
 
-$news = mod_wow_armory_guild_news::onload($params, $module);
+
+$params->set('guild', rawurlencode(str_replace(' ', '_', strtolower($params->get('guild')))));
+$params->set('realm', rawurlencode(strtolower($params->get('realm'))));
+$params->set('region', strtolower($params->get('region')));
+$params->set('lang', strtolower($params->get('lang', 'en')));
+$params->set('link', $params->get('link', 'battle.net'));
+
+$news = new mod_wow_armory_guild_news($params);
+
+$news = $news->data();
+
+if(!is_array($news)) {
+	echo $news;
+	return;
+}
 
 require JModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
