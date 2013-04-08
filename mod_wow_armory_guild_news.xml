@@ -23,11 +23,27 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_DESC" />
-				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REALM_DESC" />
-				<field name="lang" type="text" default="en" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_LANG_DESC" />
-				<field name="region" type="text" default="us" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_REGION_DESC" />
-			    <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
+				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" />
+				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" />
+				<field name="region" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL">
+                    <option value="">-- select --</option>
+                    <option value="us">USA</option>
+                    <option value="eu">Europe</option>
+                    <option value="kr">Korea</option>
+                    <option value="tw">Taiwan</option>
+                    <option value="sea">Southeast Asia</option>
+                </field>
+                <field name="lang" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL">
+                    <option value="">-- select --</option>
+                    <option value="en">English</option>
+                    <option value="de">German</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                </field>
+                <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
 				<field name="link" type="list" default="battle.net" label="MOD_WOW_ARMORY_GUILD_NEWS_LINK_LABEL">
                     <option value="battle.net">battle.net</option>
                     <option value="wowhead.com">wowhead.com</option>

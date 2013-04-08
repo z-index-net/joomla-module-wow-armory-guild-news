@@ -81,18 +81,13 @@ final class mod_wow_armory_guild_news {
         
         $result->body = preg_replace($search, $replace, $result->body);
         
-        // player achievement
-        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/character/' . $this->params->get('realm') . '/\S[[:graph:]][^/]+/(achievement)\#([[:digit:]:a]+)#i', array(&$this, 'link'), $result->body);
+        $links[] = '#/wow/' . $this->params->get('lang') . '/character/' . $this->params->get('realm') . '/\S[[:graph:]][^/]+/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/' . $this->params->get('realm') . '/(\S[[:graph:]]+)/"#i';
         
-        // player link
-        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/(character)/' . $this->params->get('realm') . '/(\S[[:graph:]][^/]+)/#i', array(&$this, 'link'), $result->body);
-        
-        // item link
-        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i', array(&$this, 'link'), $result->body);
-        
-        // guild achievement
-        $result->body = preg_replace_callback('#/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/(achievement)\#([[:digit:]:a]+)#i', array(&$this, 'link'), $result->body);
-        
+        $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
+         
         // at last split data at <li>
         preg_match_all('#<li.*?>(.*?)<\/li>#',  $result->body, $result->body, PREG_PATTERN_ORDER);
 
@@ -108,7 +103,7 @@ final class mod_wow_armory_guild_news {
     	
     	if($matches[1] == 'achievement') {
     		$achievement = substr($matches[2], strpos($matches[2], ':a')+2);
-	    	$sites['achievement']['battle.net'] = $matches[0];
+    		$sites['achievement']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
 	    	$sites['achievement']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/achievement=' . $achievement;
 	    	$sites['achievement']['wowdb.com'] = 'http://www.wowdb.com/achievements/' . $achievement;
 	    	$sites['achievement']['buffed.de'] = 'http://wowdata.buffed.de/?a=' . $achievement;
