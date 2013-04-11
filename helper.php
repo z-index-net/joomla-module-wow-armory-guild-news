@@ -13,8 +13,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.http.http');
-
 final class mod_wow_armory_guild_news {
 	
 	private $params = null;
@@ -25,7 +23,7 @@ final class mod_wow_armory_guild_news {
 
     public function data() {
 
-        if (!$this->params->get('lang') || !$this->params->get('realm') || !$this->params->get('guild')) {
+        if(!$this->params->get('lang') || !$this->params->get('realm') || !$this->params->get('guild')) {
         	return 'please configure Module - ' . __CLASS__;
         }
         
@@ -59,7 +57,7 @@ final class mod_wow_armory_guild_news {
         }
         
         // get only news data
-        preg_match('#<div id="news-list">.*?<ul class=".*?">(.*?)</ul>.*?</div>#si', $result->body, $result->body);
+        preg_match('#<div id="news-list">(.+?)</div>#si', $result->body, $result->body);
         
         $result->body = $result->body[1];
         

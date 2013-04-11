@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WoW Armory Guild News Module
  *

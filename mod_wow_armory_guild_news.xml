@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- @Version $Id$ -->
-<extension type="module" version="1.6" client="site" method="upgrade">
+<extension type="module" version="2.5" client="site" method="upgrade">
 	<name>WoW Armory Guild News</name>
 	<author>Branko Wilhelm</author>
 	<creationDate>Sep 2011</creationDate>
@@ -54,7 +54,7 @@
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
+				<field name="cache_time" type="text" filter="integer" default="60" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
 				<field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
 			</fieldset>
 		</fields>
