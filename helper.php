@@ -11,7 +11,6 @@
  * @version    $Id$
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 final class mod_wow_armory_guild_news {
