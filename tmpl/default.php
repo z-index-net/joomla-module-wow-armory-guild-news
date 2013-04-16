@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
+JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
 ?>
 <div class="mod_wow_armory_guild_news">
     <?php foreach ($news as $row) { ?>
