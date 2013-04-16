@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WoW Armory Guild News Module
  *
@@ -19,6 +20,11 @@ final class mod_wow_armory_guild_news {
 	
 	public function __construct(JRegistry &$params) {
 		$this->params = $params;
+		$this->params->set('guild', rawurlencode(str_replace(' ', '_', strtolower($this->params->get('guild')))));
+		$this->params->set('realm', rawurlencode(preg_replace('/[^[:alpha:]]/', '', strtolower($this->params->get('realm')))));
+		$this->params->set('region', strtolower($this->params->get('region')));
+		$this->params->set('lang', strtolower($this->params->get('lang', 'en')));
+		$this->params->set('link', $this->params->get('link', 'battle.net'));
 	}
 
     public function data() {
@@ -31,15 +37,15 @@ final class mod_wow_armory_guild_news {
 
         $cache = JFactory::getCache(__CLASS__ , 'output');
         $cache->setCaching(1);
-        $cache->setLifeTime($this->params->get('cache_time', 60) * 60);
+        $cache->setLifeTime($this->params->get('cache_time', 60));
 
         $key = md5($url);
          
         if(!$result = $cache->get($key)) {
-        	$http = new JHttp;
-        	$http->setOption('userAgent', 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
-        	
         	try {
+        		$http = new JHttp(new JRegistry, new JHttpTransportCurl(new JRegistry));
+        		$http->setOption('userAgent', 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
+        	
         		$result = $http->get($url, null, $this->params->get('timeout', 10));
         	}catch(Exception $e) {
         		return $e->getMessage();
@@ -49,7 +55,7 @@ final class mod_wow_armory_guild_news {
         }
 
         if($result->code != 200) {
-        	return __CLASS__ . ' HTTP-Status ' . JHTML::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#'.$result->code, $result->code, array('target' => '_blank'));
+        	return __CLASS__ . ' HTTP-Status ' . JHtml::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#'.$result->code, $result->code, array('target' => '_blank'));
         }
         
         if(strpos($result->body, '<div id="news-list">') === false) {
