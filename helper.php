@@ -19,10 +19,10 @@ final class mod_wow_armory_guild_news {
 	
 	public function __construct(JRegistry &$params) {
 		$this->params = $params;
-		$this->params->set('guild', rawurlencode(str_replace(' ', '_', strtolower($this->params->get('guild')))));
-		$this->params->set('realm', rawurlencode(preg_replace('/[^[:alpha:]]/', '', strtolower($this->params->get('realm')))));
-		$this->params->set('region', strtolower($this->params->get('region')));
-		$this->params->set('lang', strtolower($this->params->get('lang', 'en')));
+		$this->params->set('guild', rawurlencode(str_replace(' ', '_', JString::strtolower($this->params->get('guild')))));
+		$this->params->set('realm', rawurlencode(preg_replace('#[^- _\pL]#u', '', JString::strtolower($this->params->get('realm')))));
+		$this->params->set('region', JString::strtolower($this->params->get('region')));
+		$this->params->set('lang', JString::strtolower($this->params->get('lang', 'en')));
 		$this->params->set('link', $this->params->get('link', 'battle.net'));
 	}
 
