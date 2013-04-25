@@ -7,7 +7,7 @@
  * @link       http://www.z-index.net
  * @copyright  (c) 2011 - 2013 Branko Wilhelm
  * @package    mod_wow_armory_guild_news
- * @license    GNU General Public License v3
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * @version    $Id$
  */
 
@@ -26,12 +26,7 @@ final class mod_wow_armory_guild_news {
 		$this->params->set('link', $this->params->get('link', 'battle.net'));
 	}
 
-    public function data() {
-
-        if(!$this->params->get('lang') || !$this->params->get('realm') || !$this->params->get('guild')) {
-        	return 'please configure Module - ' . __CLASS__;
-        }
-        
+    public function data() {       
         $url = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/news';
 
         $cache = JFactory::getCache(__CLASS__ , 'output');
