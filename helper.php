@@ -79,10 +79,10 @@ final class mod_wow_armory_guild_news {
         
         $result->body = preg_replace($search, $replace, $result->body);
         
-        $links[] = '#/wow/' . $this->params->get('lang') . '/character/' . $this->params->get('realm') . '/\S[[:graph:]][^/]+/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/character/.+?[^/]/.+?[^/]/(achievement)\#([[:digit:]:a]+)#i';
         $links[] = '#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/(achievement)\#([[:digit:]:a]+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/' . $this->params->get('realm') . '/(\S[[:graph:]]+)/"#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/.+?[^/]/.+?[^/]/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/.+?[^/]/(.+?)[^/]/"#i';
         
         $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
          
@@ -93,7 +93,6 @@ final class mod_wow_armory_guild_news {
     }
     
     private function link($matches) {
-    	
     	$sites['item']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
     	$sites['item']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/item=' . $matches[2];
     	$sites['item']['wowdb.com'] = 'http://www.wowdb.com/items/' . $matches[2];
