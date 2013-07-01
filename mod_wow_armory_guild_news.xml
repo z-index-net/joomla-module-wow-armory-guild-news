@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- @Version $Id$ -->
 <extension type="module" version="2.5" client="site" method="upgrade">
 	<name>WoW Armory Guild News</name>
 	<author>Branko Wilhelm</author>
 	<creationDate>Sep 2011</creationDate>
 	<copyright>(C) 2011 - 2013 Branko Wilhelm</copyright>
 	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-	<authorEmail>bw@z-index.net</authorEmail>
+    <authorEmail>branko.wilhelm@gmail.com</authorEmail>
 	<authorUrl>www.z-index.net</authorUrl>
-	<version>@SVN_REVISION@</version>
+	<version>@REVISION@</version>
 	<description>Display latest WoW Armory Guild News</description>
 	<files>
 		<filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
