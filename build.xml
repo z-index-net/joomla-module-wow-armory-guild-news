@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="mod_wow_armory_guild_news" basedir="." default="build">
 	
-	<svnlastrevision workingcopy="." propertyname="revision" />
+	<exec command="git rev-list --count HEAD" dir="." outputProperty="revision" />
 	
-	<property name="zip" value="/var/www/_svn/${phing.project.name}.rev.${revision}.zip" />
+	<property name="zip" value="/var/www/_deployment/${phing.project.name}.rev.${revision}.zip" />
 
 	<fileset dir="." id="allfiles">
 		<include name="**" />
@@ -31,7 +31,7 @@
 			<fileset refid="allfiles" />
 			<filterchain>
 				<replacetokens>
-					<token key="SVN_REVISION" value="rev ${revision}" />
+					<token key="REVISION" value="rev ${revision}" />
 				</replacetokens>
 			</filterchain>
 		</copy>

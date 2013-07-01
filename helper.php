@@ -1,16 +1,12 @@
 <?php
 
 /**
- * WoW Armory Guild News Module
- *
- * @author     Branko Wilhelm <bw@z-index.net>
+ * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2011 - 2013 Branko Wilhelm
- * @package    mod_wow_armory_guild_news
+ * @copyright  (c) 2013 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version    $Id$
  */
-
+ 
 defined('_JEXEC') or die;
 
 final class mod_wow_armory_guild_news {
