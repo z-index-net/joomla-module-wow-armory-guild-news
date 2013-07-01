@@ -79,10 +79,10 @@ final class mod_wow_armory_guild_news {
         
         $result->body = preg_replace($search, $replace, $result->body);
         
-        $links[] = '#/wow/' . $this->params->get('lang') . '/character/.+?[^/]/.+?[^/]/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/character/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
         $links[] = '#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/.+?[^/]/.+?[^/]/(achievement)\#([[:digit:]:a]+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/.+?[^/]/(.+?)[^/]/"#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/[^/]+/(.+)[^/]/"#i';
         
         $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
          
