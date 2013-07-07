@@ -78,7 +78,7 @@ final class mod_wow_armory_guild_news {
         $links[] = '#/wow/' . $this->params->get('lang') . '/character/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
         $links[] = '#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i';
         $links[] = '#/wow/' . $this->params->get('lang') . '/guild/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/[^/]+/(.+)[^/]/"#i';
+        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/[^/]+/(\S[[:graph:]]+)/"#i';
         
         $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
          
