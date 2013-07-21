@@ -25,7 +25,7 @@ final class mod_wow_armory_guild_news {
     public function data() {       
         $url = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/news';
 
-        $cache = JFactory::getCache(__CLASS__ , 'output');
+        $cache = JFactory::getCache('wow' , 'output');
         $cache->setCaching(1);
         $cache->setLifeTime($this->params->get('cache_time', 60));
 
