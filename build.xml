@@ -23,11 +23,11 @@
 	</target>
 	
 	<target name="lang">
-		<copy file="./lang/de-DE.${phing.project.name}.ini" tofile="../../language/de-DE/de-DE.${phing.project.name}.ini" overwrite="true" />
-		<copy file="./lang/en-GB.${phing.project.name}.ini" tofile="../../language/en-GB/en-GB.${phing.project.name}.ini" overwrite="true" />
+		<copy file="./lang/de-DE.${phing.project.name}.ini" todir="../../language/de-DE/" />
+		<copy file="./lang/en-GB.${phing.project.name}.ini" todir="../../language/en-GB/" />
 	</target>
 	
-	<target name="build" depends="cleanup,lang">
+	<target name="build" depends="cleanup">
 		
 		<copy todir="_tmp">
 			<fileset refid="allfiles" />

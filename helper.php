@@ -101,9 +101,9 @@ final class mod_wow_armory_guild_news {
 	    	$sites['achievement']['wowdb.com'] = 'http://www.wowdb.com/achievements/' . $achievement;
 	    	$sites['achievement']['buffed.de'] = 'http://wowdata.buffed.de/?a=' . $achievement;
     	}
-    	
+
     	$sites['character']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
-    	$sites['character']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/profile=' . $this->params->get('region') . '.' . $this->params->get('realm'). '.' . $matches[2];
+    	$sites['character']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/profile=' . $this->params->get('region') . '.' . $this->params->get('realm'). '.' . $matches[2] . '"';
     	 
     	return isset($sites[$matches[1]][$this->params->get('link')]) ? $sites[$matches[1]][$this->params->get('link')] : $sites[$matches[1]]['battle.net'];
     }
