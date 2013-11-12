@@ -49,6 +49,7 @@
                     <option value="wowdb.com">wowdb.com</option>
                     <option value="buffed.de">buffed.de</option>
                 </field>
+                <field name="filter" type="text" default="" label="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_DESC" />
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />

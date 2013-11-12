@@ -84,7 +84,19 @@ final class mod_wow_armory_guild_news {
          
         // at last split data at <li>
         preg_match_all('#<li.*?>(.*?)<\/li>#',  $result->body, $result->body, PREG_PATTERN_ORDER);
-
+        if($filter = $this->params->get('filter')) {
+            $filter = array_filter(array_map('trim', explode(';', $filter)));
+            if(!empty($filter)) {
+                foreach($result->body[1] as $key => $row) {
+                    foreach($filter as $search) {
+                        if(strpos($row, $search) !== false) {
+                            unset($result->body[1][$key]);
+                        }
+                    }
+                }
+            }
+        }
+        
         return array_slice($result->body[1], 0, $this->params->get('rows'));
     }
     
