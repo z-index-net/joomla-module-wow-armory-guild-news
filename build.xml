@@ -22,11 +22,6 @@
         <delete file="${zip}" />
     </target>
 
-    <target name="lang">
-        <copy file="language/de-DE.${phing.project.name}.ini" todir="../../language/de-DE/" />
-        <copy file="language/en-GB.${phing.project.name}.ini" todir="../../language/en-GB/" />
-    </target>
-
     <target name="build" depends="cleanup">
 
         <copy todir="_tmp">
