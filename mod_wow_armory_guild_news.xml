@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-	<name>WoW Armory Guild News</name>
-	<author>Branko Wilhelm</author>
-	<creationDate>Sep 2011</creationDate>
-	<copyright>(C) 2011 - 2013 Branko Wilhelm</copyright>
-	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <name>MOD_WOW_ARMORY_GUILD_NEWS</name>
+    <author>Branko Wilhelm</author>
+    <creationDate>Sep 2011</creationDate>
+    <copyright>(C) 2011 - 2013 Branko Wilhelm</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
     <authorEmail>branko.wilhelm@gmail.com</authorEmail>
-	<authorUrl>www.z-index.net</authorUrl>
-	<version>@REVISION@</version>
-	<description>Display latest WoW Armory Guild News</description>
-	<files>
-		<filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
-		<filename>helper.php</filename>
-		<filename>index.html</filename>
-		<folder>tmpl</folder>
-	</files>
-	<languages folder="lang">
-		<language tag="en-GB">en-GB.mod_wow_armory_guild_news.ini</language>
-		<language tag="de-DE">de-DE.mod_wow_armory_guild_news.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" />
-				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" />
-				<field name="region" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL">
-                    <option value="">-- select --</option>
+    <authorUrl>www.z-index.net</authorUrl>
+    <version>@REVISION@</version>
+    <description>MOD_WOW_ARMORY_GUILD_NEWS_DESC</description>
+    <files>
+        <filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
+        <filename>helper.php</filename>
+        <folder>tmpl</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.mod_wow_armory_guild_news.ini</language>
+        <language tag="en-GB">en-GB/en-GB.mod_wow_armory_guild_news.sys.ini</language>
+        <language tag="de-DE">de-DE/de-DE.mod_wow_armory_guild_news.ini</language>
+        <language tag="de-DE">de-DE/de-DE.mod_wow_armory_guild_news.sys.ini</language>
+    </languages>
+    <updateservers>
+        <server type="collection" priority="1" name="z-index development">http://www.z-index.net/en/extensions.xml</server>
+    </updateservers>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" />
+                <field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" />
+                <field name="region" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL">
+                    <option value="">JSELECT</option>
                     <option value="us">USA</option>
                     <option value="eu">Europe</option>
                     <option value="kr">Korea</option>
@@ -33,7 +37,7 @@
                     <option value="sea">Southeast Asia</option>
                 </field>
                 <field name="lang" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL">
-                    <option value="">-- select --</option>
+                    <option value="">JSELECT</option>
                     <option value="en">English</option>
                     <option value="de">German</option>
                     <option value="fr">Français</option>
@@ -43,23 +47,20 @@
                     <option value="ru">Русский</option>
                 </field>
                 <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
-				<field name="link" type="list" default="battle.net" label="MOD_WOW_ARMORY_GUILD_NEWS_LINK_LABEL">
+                <field name="link" type="list" default="battle.net" label="MOD_WOW_ARMORY_GUILD_NEWS_LINK_LABEL">
                     <option value="battle.net">battle.net</option>
                     <option value="wowhead.com">wowhead.com</option>
                     <option value="wowdb.com">wowdb.com</option>
                     <option value="buffed.de">buffed.de</option>
                 </field>
                 <field name="filter" type="text" default="" label="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_DESC" />
-			</fieldset>
-			<fieldset name="advanced">
-				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field name="cache_time" type="text" filter="integer" default="60" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
-				<field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
-			</fieldset>
-		</fields>
-	</config>
-	<updateservers>
-		<server type="extension" priority="1" name="WoW Armory Guild News">http://www.z-index.net/en/joomla/wow-armory-guild-news/updatestream.xml</server>
-	</updateservers>
+                <field name="cache_time" type="text" filter="integer" default="60" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
+                <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
+            </fieldset>
+            <fieldset name="advanced">
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+                <field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+            </fieldset>
+        </fields>
+    </config>
 </extension>

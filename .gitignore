@@ -1,5 +1,1 @@
-# Zend Studio files #
-#####################
-.buildpath
-.project
-.settings*
+.idea*
