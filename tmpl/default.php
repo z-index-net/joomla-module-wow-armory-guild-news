@@ -9,10 +9,18 @@
 
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
+if (version_compare(JVERSION, 3, '>=')) {
+    JHtml::_('jquery.framework');
+}
+
+JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/default.css');
 ?>
-<div class="mod_wow_armory_guild_news">
-    <?php foreach ($news as $row) { ?>
-        <?php echo $row; ?>
-    <?php } ?>
-</div>
+<?php if ($params->get('ajax')) : ?>
+    <div class="mod_wow_armory_guild_news ajax"></div>
+<?php else: ?>
+    <div class="mod_wow_armory_guild_news">
+        <?php foreach ($news as $row) : ?>
+            <?php echo $row; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

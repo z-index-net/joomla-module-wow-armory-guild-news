@@ -9,22 +9,59 @@
 
 defined('_JEXEC') or die;
 
-final class mod_wow_armory_guild_news
+final class ModWowArmoryGuildNewsHelper
 {
-
     private $params = null;
 
-    public function __construct(JRegistry &$params)
+    private function __construct(JRegistry &$params)
     {
+        if (version_compare(JVERSION, 3, '>=')) {
+            $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
+            $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
+        } else {
+            $params->set('realm', str_replace(array('%20', ' '), '-', $params->get('realm')));
+            $params->set('guild', str_replace(array('%20', ' '), '%2520', $params->get('guild')));
+        }
+
+        $params->set('region', JString::strtolower($params->get('region')));
+        $params->set('lang', JString::strtolower($params->get('lang', 'en')));
+        $params->set('link', $params->get('link', 'battle.net'));
+
         $this->params = $params;
-        $this->params->set('guild', rawurlencode(str_replace(' ', '_', JString::strtolower($this->params->get('guild')))));
-        $this->params->set('realm', rawurlencode(preg_replace('#[^- _\pL]#u', '', JString::strtolower($this->params->get('realm')))));
-        $this->params->set('region', JString::strtolower($this->params->get('region')));
-        $this->params->set('lang', JString::strtolower($this->params->get('lang', 'en')));
-        $this->params->set('link', $this->params->get('link', 'battle.net'));
     }
 
-    public function data()
+    public static function getAjax()
+    {
+        $module = JModuleHelper::getModule('mod_' . JFactory::getApplication()->input->get('module'));
+
+        if (empty($module)) {
+            return false;
+        }
+
+        JFactory::getLanguage()->load($module->module);
+
+        $params = new JRegistry($module->params);
+        $params->set('ajax', 0);
+
+        ob_start();
+
+        require(dirname(__FILE__) . '/' . $module->module . '.php');
+
+        return ob_get_clean();
+    }
+
+    public static function getData(JRegistry &$params)
+    {
+        if ($params->get('ajax')) {
+            return;
+        }
+
+        $instance = new self($params);
+
+        return $instance->createData();
+    }
+
+    private function createData()
     {
         $url = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/news';
 
@@ -36,7 +73,7 @@ final class mod_wow_armory_guild_news
 
         if (!$result = $cache->get($key)) {
             try {
-                $http = new JHttp(new JRegistry, new JHttpTransportCurl(new JRegistry));
+                $http = JHttpFactory::getHttp();
                 $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
 
                 $result = $http->get($url, null, $this->params->get('timeout', 10));

@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/helper.php';
+JLoader::register('ModWowArmoryGuildNewsHelper', dirname(__FILE__) . '/helper.php');
 
-$news = new mod_wow_armory_guild_news($params);
+$news = ModWowArmoryGuildNewsHelper::getData($params);
 
-$news = $news->data();
-
-if (!is_array($news)) {
+if (!$params->get('ajax') && !is_array($news)) {
     echo $news;
     return;
 }
