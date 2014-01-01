@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-if (version_compare(JVERSION, 3, '>=')) {
-    JHtml::_('jquery.framework');
-}
-
 JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/default.css');
 ?>
 <?php if ($params->get('ajax')) : ?>
