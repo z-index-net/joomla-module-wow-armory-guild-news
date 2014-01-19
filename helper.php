@@ -141,7 +141,7 @@ final class ModWowArmoryGuildNewsHelper
                 foreach ($result->body as $key => $row) {
                     foreach ($filter as $search) {
                         if (strpos($row, $search) !== false) {
-                            unset($result->body[1][$key]);
+                            unset($result->body[$key]);
                         }
                     }
                 }
