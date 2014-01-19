@@ -89,11 +89,11 @@ final class ModWowArmoryGuildNewsHelper
         }
 
         if (strpos($result->body, '<div id="news-list">') === false) {
-            return 'no news found';
+            return JText::_('MOD_WOW_ARMORY_GUILD_NEWS_NO_NEWS');
         }
 
         // get only news data
-        preg_match('#<div id="news-list">(.+?)</div>#si', $result->body, $result->body);
+        preg_match('#<ul class="activity-feed activity-feed-wide">(.+?)</ul>#si', $result->body, $result->body);
 
         $result->body = $result->body[1];
 
@@ -103,6 +103,10 @@ final class ModWowArmoryGuildNewsHelper
 
         // would disable wowhead tooltips?!
         $search[] = '#rel="np"#';
+        $replace[] = '';
+
+        // remove unnecessary li object
+        $search[] = '#<li data-id="[0-9]+" class="item-looted.*?">#';
         $replace[] = '';
 
         // add link target
@@ -122,13 +126,19 @@ final class ModWowArmoryGuildNewsHelper
 
         $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
 
-        // at last split data at <li>
-        preg_match_all('#<li.*?>(.*?)<\/li>#', $result->body, $result->body, PREG_PATTERN_ORDER);
+        // at last split data at </li>
+        $result->body = explode('</li>', $result->body);
+
+        if (empty($result->body)) {
+            return JText::_('MOD_WOW_ARMORY_GUILD_NEWS_NO_NEWS');
+        }
+
+        $result->body = array_filter($result->body); // remove empty items
 
         if ($filter = $this->params->get('filter')) {
             $filter = array_filter(array_map('trim', explode(';', $filter)));
             if (!empty($filter)) {
-                foreach ($result->body[1] as $key => $row) {
+                foreach ($result->body as $key => $row) {
                     foreach ($filter as $search) {
                         if (strpos($row, $search) !== false) {
                             unset($result->body[1][$key]);
@@ -138,7 +148,7 @@ final class ModWowArmoryGuildNewsHelper
             }
         }
 
-        return array_slice($result->body[1], 0, $this->params->get('rows'));
+        return array_slice($result->body, 0, $this->params->get('rows'));
     }
 
     private function link($matches)
