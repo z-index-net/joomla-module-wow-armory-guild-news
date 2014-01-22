@@ -106,7 +106,7 @@ final class ModWowArmoryGuildNewsHelper
         $replace[] = '';
 
         // remove unnecessary li object
-        $search[] = '#<li data-id="[0-9]+" class="item-looted.*?">#';
+        $search[] = '#<li data-id="[0-9]+" class=".*?">#';
         $replace[] = '';
 
         // add link target
