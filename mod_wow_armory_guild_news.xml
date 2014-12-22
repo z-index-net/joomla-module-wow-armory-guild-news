@@ -3,7 +3,7 @@
     <name>MOD_WOW_ARMORY_GUILD_NEWS</name>
     <author>Branko Wilhelm</author>
     <creationDate>Sep 2011</creationDate>
-    <copyright>(C) 2011 - 2014 Branko Wilhelm</copyright>
+    <copyright>(c) 2011 - 2015 Branko Wilhelm</copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
     <authorEmail>branko.wilhelm@gmail.com</authorEmail>
     <authorUrl>www.z-index.net</authorUrl>
@@ -12,7 +12,6 @@
     <files>
         <filename module="mod_wow_armory_guild_news">mod_wow_armory_guild_news.php</filename>
         <filename>helper.php</filename>
-        <folder>fields</folder>
         <folder>tmpl</folder>
     </files>
     <scriptfile>script.installer.php</scriptfile>
@@ -25,39 +24,13 @@
     <updateservers>
         <server type="collection" priority="1" name="z-index development">http://www.z-index.net/en/extensions.xml</server>
     </updateservers>
+    <media folder="media" destination="mod_wow_armory_guild_news">
+        <folder>css</folder>
+    </media>
     <config>
-        <fields name="params" addfieldpath="/modules/mod_wow_armory_guild_news/fields/">
+        <fields name="params" addfieldpath="/plugins/system/wow/fields/">
             <fieldset name="basic">
-                <field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_GUILD_LABEL" />
-                <field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REALM_LABEL" />
-                <field name="region" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_REGION_LABEL">
-                    <option value="">JSELECT</option>
-                    <option value="us">USA</option>
-                    <option value="eu">Europe</option>
-                    <option value="kr">Korea</option>
-                    <option value="tw">Taiwan</option>
-                    <option value="sea">Southeast Asia</option>
-                </field>
-                <field name="lang" type="list" default="" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_LANG_LABEL">
-                    <option value="">JSELECT</option>
-                    <option value="en">English</option>
-                    <option value="de">German</option>
-                    <option value="fr">Français</option>
-                    <option value="es">Español</option>
-                    <option value="it">Italiano</option>
-                    <option value="pt">Português</option>
-                    <option value="ru">Русский</option>
-                </field>
-                <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
-                <field name="link" type="list" default="battle.net" label="MOD_WOW_ARMORY_GUILD_NEWS_LINK_LABEL">
-                    <option value="battle.net">battle.net</option>
-                    <option value="wowhead.com">wowhead.com</option>
-                    <option value="wowdb.com">wowdb.com</option>
-                    <option value="buffed.de">buffed.de</option>
-                </field>
                 <field name="filter" type="text" default="" label="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_DESC" />
-                <field name="cache_time" type="text" filter="integer" default="60" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_CACHE_DESC" />
-                <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_TIMEOUT_DESC" />
                 <field name="ajax" type="ajax" class="btn-group" label="Ajax" default="0" />
             </fieldset>
             <fieldset name="advanced">

@@ -3,13 +3,21 @@
 /**
  * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2013 - 2014 Branko Wilhelm
+ * @copyright  (c) 2011 - 2015 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * @var        stdClass $module
+ * @var        Joomla\Registry\Registry $params
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('ModWowArmoryGuildNewsHelper', dirname(__FILE__) . '/helper.php');
+if (!class_exists('WoWModuleAbstract')) {
+    echo JText::_('JERROR_ERROR') . ': WoW-Plugin not found?!';
+    return;
+}
+
+JLoader::register('ModWowArmoryGuildNewsHelper', __DIR__ . '/helper.php');
 
 $news = ModWowArmoryGuildNewsHelper::getData($params);
 

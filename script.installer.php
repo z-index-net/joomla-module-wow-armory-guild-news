@@ -3,7 +3,7 @@
 /**
  * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2013 - 2014 Branko Wilhelm
+ * @copyright  (c) 2011 - 2015 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -11,16 +11,13 @@ defined('_JEXEC') or die;
 
 class mod_wow_armory_guild_newsInstallerScript
 {
-    private $required = '2.5.16';
-
     public function preflight()
     {
-        if (!version_compare(JVERSION, $this->required, 'ge')) {
-            $link = JHtml::link('index.php?option=com_joomlaupdate', $this->required);
-            JFactory::getApplication()->enqueueMessage(sprintf('You need Joomla! %s or later to install this extension', $link), 'error');
+        if (!class_exists('WoW')) {
+            $link = JHtml::_('link', 'http://www.z-index.net', 'z-index.net', array('target' => '_blank'));
+            JFactory::getApplication()->enqueueMessage(sprintf('You need the latest Joomla WoW configuration Extension from ', $link), 'error');
             return false;
         }
-
         return true;
     }
 }

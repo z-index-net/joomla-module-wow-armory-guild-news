@@ -3,89 +3,20 @@
 /**
  * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2013 - 2014 Branko Wilhelm
+ * @copyright  (c) 2011 - 2015 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 defined('_JEXEC') or die;
 
-final class ModWowArmoryGuildNewsHelper
+class ModWowArmoryGuildNewsHelper extends WoWModuleAbstract
 {
-    private $params = null;
-
-    private function __construct(JRegistry &$params)
+    protected function getInternalData()
     {
-        if (version_compare(JVERSION, 3, '>=')) {
-            $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
-            $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
-        } else {
-            $params->set('realm', str_replace(array('%20', ' '), '-', $params->get('realm')));
-            $params->set('guild', str_replace(array('%20', ' '), '%2520', $params->get('guild')));
-        }
-
-        $params->set('region', JString::strtolower($params->get('region')));
-        $params->set('lang', JString::strtolower($params->get('lang', 'en')));
-        $params->set('link', $params->get('link', 'battle.net'));
-
-        $this->params = $params;
-    }
-
-    public static function getAjax()
-    {
-        $module = JModuleHelper::getModule('mod_' . JFactory::getApplication()->input->get('module'));
-
-        if (empty($module)) {
-            return false;
-        }
-
-        JFactory::getLanguage()->load($module->module);
-
-        $params = new JRegistry($module->params);
-        $params->set('ajax', 0);
-
-        ob_start();
-
-        require(dirname(__FILE__) . '/' . $module->module . '.php');
-
-        return ob_get_clean();
-    }
-
-    public static function getData(JRegistry &$params)
-    {
-        if ($params->get('ajax')) {
-            return;
-        }
-
-        $instance = new self($params);
-
-        return $instance->createData();
-    }
-
-    private function createData()
-    {
-        $url = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '/news';
-
-        $cache = JFactory::getCache('wow', 'output');
-        $cache->setCaching(1);
-        $cache->setLifeTime($this->params->get('cache_time', 60));
-
-        $key = md5($url);
-
-        if (!$result = $cache->get($key)) {
-            try {
-                $http = JHttpFactory::getHttp();
-                $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; Wow Armory Guild News Module; php/' . phpversion());
-
-                $result = $http->get($url, null, $this->params->get('timeout', 10));
-            } catch (Exception $e) {
-                return $e->getMessage();
-            }
-
-            $cache->store($result, $key);
-        }
-
-        if ($result->code != 200) {
-            return __CLASS__ . ' HTTP-Status ' . JHtml::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#' . $result->code, $result->code, array('target' => '_blank'));
+        try {
+            $result = WoW::getInstance()->getAdapter('BattleNET')->getData('guild_news');
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
         if (strpos($result->body, '<div id="news-list">') === false) {
@@ -119,10 +50,10 @@ final class ModWowArmoryGuildNewsHelper
 
         $result->body = preg_replace($search, $replace, $result->body);
 
-        $links[] = '#/wow/' . $this->params->get('lang') . '/character/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/(item)/(\d+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/guild/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
-        $links[] = '#/wow/' . $this->params->get('lang') . '/(character)/[^/]+/(\S[[:graph:]]+)/"#i';
+        $links[] = '#/wow/' . $this->params->global->get('locale') . '/character/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->global->get('locale') . '/(item)/(\d+)#i';
+        $links[] = '#/wow/' . $this->params->global->get('locale') . '/guild/[^/]+/[^/]+/(achievement)\#([[:digit:]:a]+)#i';
+        $links[] = '#/wow/' . $this->params->global->get('locale') . '/(character)/[^/]+/(\S[[:graph:]]+)/"#i';
 
         $result->body = preg_replace_callback($links, array(&$this, 'link'), $result->body);
 
@@ -135,7 +66,7 @@ final class ModWowArmoryGuildNewsHelper
 
         $result->body = array_filter($result->body); // remove empty items
 
-        if ($filter = $this->params->get('filter')) {
+        if ($filter = $this->params->module->get('filter')) {
             $filter = array_filter(array_map('trim', explode(';', $filter)));
             if (!empty($filter)) {
                 foreach ($result->body as $key => $row) {
@@ -148,27 +79,23 @@ final class ModWowArmoryGuildNewsHelper
             }
         }
 
-        return array_slice($result->body, 0, $this->params->get('rows'));
+        return array_slice($result->body, 0, $this->params->module->get('rows'));
     }
 
     private function link($matches)
     {
-        $sites['item']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
-        $sites['item']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/item=' . $matches[2];
-        $sites['item']['wowdb.com'] = 'http://www.wowdb.com/items/' . $matches[2];
-        $sites['item']['buffed.de'] = 'http://wowdata.buffed.de/?i=' . $matches[2];
+        $sites['item']['battle.net'] = 'http://' . $this->params->global->get('region') . '.battle.net' . $matches[0];
+        $sites['item']['wowhead.com'] = 'http://' . $this->params->global->get('locale') . '.wowhead.com/item=' . $matches[2];
 
         if ($matches[1] == 'achievement') {
             $achievement = substr($matches[2], strpos($matches[2], ':a') + 2);
-            $sites['achievement']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
-            $sites['achievement']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/achievement=' . $achievement;
-            $sites['achievement']['wowdb.com'] = 'http://www.wowdb.com/achievements/' . $achievement;
-            $sites['achievement']['buffed.de'] = 'http://wowdata.buffed.de/?a=' . $achievement;
+            $sites['achievement']['battle.net'] = 'http://' . $this->params->global->get('region') . '.battle.net' . $matches[0];
+            $sites['achievement']['wowhead.com'] = 'http://' . $this->params->global->get('locale') . '.wowhead.com/achievement=' . $achievement;
         }
 
-        $sites['character']['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net' . $matches[0];
-        $sites['character']['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/profile=' . $this->params->get('region') . '.' . $this->params->get('realm') . '.' . $matches[2] . '"';
+        $sites['character']['battle.net'] = 'http://' . $this->params->global->get('region') . '.battle.net' . $matches[0];
+        $sites['character']['wowhead.com'] = 'http://' . $this->params->global->get('locale') . '.wowhead.com/profile=' . $this->params->global->get('region') . '.' . $this->params->global->get('realm') . '.' . $matches[2] . '"';
 
-        return isset($sites[$matches[1]][$this->params->get('link')]) ? $sites[$matches[1]][$this->params->get('link')] : $sites[$matches[1]]['battle.net'];
+        return isset($sites[$matches[1]][$this->params->global->get('link')]) ? $sites[$matches[1]][$this->params->global->get('link')] : $sites[$matches[1]]['battle.net'];
     }
 }

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="mod_wow_armory_guild_news" basedir="." default="build">
 
-    <exec command="git rev-list --count HEAD" dir="." outputProperty="revision" />
+    <target name="build">
+        <if>
+            <not>
+                <isset property="path" />
+            </not>
+            <then>
+                <input message="Please enter a Path:" propertyName="path" />
+            </then>
+        </if>
 
-    <property name="path" value="/var/www/_deployment/" />
+        <property name="tmp" value="${project.basedir}/_tmp" />
 
-    <property name="zip" value="${path}${phing.project.name}.rev.${revision}.zip" />
+        <exec command="git rev-list --count HEAD" dir="." outputProperty="revision" />
 
-    <fileset dir="." id="allfiles">
-        <include name="**" />
-        <exclude name="build.xml" />
-        <exclude name=".**" />
-    </fileset>
+        <property name="zip" value="${path}${phing.project.name}.rev.${revision}.zip" />
 
-    <fileset dir="_tmp" id="tmp">
-        <include name="**" />
-    </fileset>
+        <delete dir="${tmp}" quiet="true" />
+        <delete file="${zip}" quiet="true" />
 
-    <target name="cleanup">
-        <delete dir="_tmp" />
-        <delete file="${zip}" />
-    </target>
-
-    <target name="build" depends="cleanup">
-
-        <copy todir="_tmp">
-            <fileset refid="allfiles" />
+        <copy todir="${tmp}">
+            <fileset dir=".">
+                <include name="**" />
+                <exclude name="build.xml" />
+                <exclude name=".**" />
+            </fileset>
             <filterchain>
                 <replacetokens>
                     <token key="REVISION" value="rev ${revision}" />
@@ -33,12 +33,9 @@
             </filterchain>
         </copy>
 
-        <zip destfile="${zip}">
-            <fileset refid="tmp" />
-        </zip>
+        <zip basedir="${tmp}" destfile="${zip}" />
 
-        <delete dir="_tmp" />
-
+        <delete dir="${tmp}" quiet="true" />
     </target>
 
 </project>
