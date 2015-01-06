@@ -30,6 +30,7 @@
     <config>
         <fields name="params" addfieldpath="/plugins/system/wow/fields/">
             <fieldset name="basic">
+                <field name="rows" type="integer" first="1" last="25" step="1" default="5" label="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_ROWS_DESC" />
                 <field name="filter" type="text" default="" label="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_LABEL" description="MOD_WOW_ARMORY_GUILD_NEWS_FILTER_DESC" />
                 <field name="ajax" type="ajax" class="btn-group" label="Ajax" default="0" />
             </fieldset>
