@@ -22,7 +22,7 @@
         <language tag="de-DE">de-DE/de-DE.mod_wow_armory_guild_news.sys.ini</language>
     </languages>
     <updateservers>
-        <server type="collection" priority="1" name="z-index development">http://www.z-index.net/en/extensions.xml</server>
+        <server type="extension" priority="1" name="WoW Armory Guild News">https://raw.githubusercontent.com/z-index-net/joomla-module-wow-armory-guild-news/master/updatestream.xml</server>
     </updateservers>
     <media folder="media" destination="mod_wow_armory_guild_news">
         <folder>css</folder>
