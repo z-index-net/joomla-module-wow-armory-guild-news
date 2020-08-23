@@ -1,0 +1,35 @@
+# Changelog
+
+- 2015-01-06 
+  - fix: missing row configuration
+- 2014-12-22 
+  - new: wow lib usage
+  - new: media folder usage
+- 2014-01-19 
+  - fix: armory update fix
+- 2013-11-12 
+  - new: text filter
+- 2013-09-13 
+  - fix: wowhead profile link
+- 2013-07-21 
+  - enh: changed cache handling for sharing of equals cache items
+- 2013-07-07 
+  - fix: character regex
+- 2013-04-29 
+  - fix: bug for russian realms and guilds
+- 2013-04-25 
+  - enh: cleanup language files
+- 2013-04-11 
+  - del: Joomla 1.6 and Joomla 1.7 support removed
+- 2013-04-07 
+  - enh: better cache handling (now can cleaned up with joomla)
+  - enh: using joomla nativ http outgoing connections (better compatibility)
+  - fix: bugs with regular expression not found all guilds or characters
+  - del: included wowhead functionality - install one of the Plugins in our Download Section.
+  - new: added colors for item links
+- 2013-03-29 
+    - new: Joomla 3.X compatibility
+    - del: Joomla 1.5 support removed
+- 2011-10-02
+    - new: public release
+
